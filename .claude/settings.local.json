@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes create-next-app@latest . --ts --app --tailwind --eslint --src-dir=false --import-alias \"@/*\" --use-npm --no-turbopack --yes)",
+      "Bash(npx --yes create-next-app@latest speed-to-lead-builder --ts --app --tailwind --eslint --src-dir=false --import-alias \"@/*\" --use-npm --no-turbopack --yes)",
+      "Bash(npm install:*)",
+      "Bash(mkdir -p lib)",
+      "Bash(mv schemas.ts lib/schemas.ts)"
+    ]
+  }
+}
