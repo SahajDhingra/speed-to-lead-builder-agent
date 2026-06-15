@@ -9,17 +9,17 @@ export const ClientProfileSchema = z.object({
       name: z.string(),
       description: z.string(),
       priceRange: z.string(),                // "$8,000–$25,000"
-      typicalDuration: z.string().optional(),
+      typicalDuration: z.string().optional().nullable(),
     })
   ),
   serviceArea: z.object({
     locations: z.array(z.string()),          // cities / zips covered
-    notes: z.string().optional(),            // radius, exclusions
+    notes: z.string().optional().nullable(), // radius, exclusions
   }),
   hours: z.object({
     regular: z.string(),
     emergencyAvailable: z.boolean(),
-    emergencyNotes: z.string().optional(),
+    emergencyNotes: z.string().optional().nullable(),
   }),
   bookingRules: z.string(),                  // info needed, lead time, dispatch logic
   brandVoice: z.object({
@@ -37,9 +37,9 @@ export const ClientProfileSchema = z.object({
   }),
   differentiators: z.array(z.string()),
   contact: z.object({
-    email: z.string(),
-    phone: z.string().optional(),
-    website: z.string().optional(),
+    email: z.string().nullable(),
+    phone: z.string().optional().nullable(),
+    website: z.string().optional().nullable(),
   }),
 });
 export type ClientProfile = z.infer<typeof ClientProfileSchema>;

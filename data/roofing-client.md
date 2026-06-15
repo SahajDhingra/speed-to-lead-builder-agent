@@ -370,3 +370,12 @@ A: The North DFW metro — McKinney, Frisco, Plano, Allen, Prosper, Denton, and 
 - Email: thebrooksfamily@gmail.com
 - Source: Website form
 - Message: "After the May hail we've got dings all over — the roof obviously but also the gutters are dented and a couple sections of siding on the north side got beat up, plus a window screen torn. We want to file one claim and get it all handled by one company instead of juggling three contractors. Roof is 11 yrs old. We're in McKinney 75070. Haven't filed yet, want your guidance on doing it right."
+
+---
+
+## 11. Contact & Booking
+
+- **Phone:** (972) 439-0077
+- **Email:** hello@redhawkroofing.com
+- **Website:** https://redhawkroofing.com
+- **Free inspection booking:** https://redhawkroofing.com/schedule
