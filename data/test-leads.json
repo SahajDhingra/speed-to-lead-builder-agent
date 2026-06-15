@@ -1,0 +1,51 @@
+[
+  {
+    "id": "lead-01",
+    "name": "Marcus Delgado",
+    "email": "mdelgado.tx@gmail.com",
+    "source": "Website form",
+    "message": "We got hammered by the hail two weeks ago, I think it was the May 28th storm. Half my street already has new roofs going up and two neighbors used a company that I didnt love. Roof is about 9 years old. Havent filed a claim yet, didnt want to until somebody who knows what theyre doing looks at it. Were in Prosper 75078. Can someone come out this week?",
+    "receivedAt": "2026-06-15T09:14:00.000Z"
+  },
+  {
+    "id": "lead-02",
+    "name": "Greg P.",
+    "email": "gpw1962@yahoo.com",
+    "source": "Website form",
+    "message": "Just need a ballpark number to replace a roof on a 2400 sq ft house. Getting a few quotes. What's your per square price? Don't really need anyone to come out, just want the number so I can compare. Thanks",
+    "receivedAt": "2026-06-15T10:30:00.000Z"
+  },
+  {
+    "id": "lead-03",
+    "name": "Brittany Cole",
+    "email": "bcole.realtor@kw.com",
+    "source": "Google",
+    "message": "Hi, I have a listing in Mansfield that needs a roof cert before closing next Friday. Can you get out there this week and do an inspection with a written report? Address is off Heritage Pkwy. Need it fast, we're under contract.",
+    "receivedAt": "2026-06-15T11:05:00.000Z"
+  },
+  {
+    "id": "lead-04",
+    "name": "Sandra Whitfield",
+    "email": "swhitfield77@gmail.com",
+    "phone": "9727550134",
+    "source": "Phone (after hours, logged)",
+    "message": "[10:42 PM] Water is coming through my ceiling in the upstairs bedroom RIGHT NOW. It's dripping into a bucket and the drywall is sagging. The wind earlier ripped something off the roof I think. I'm in Allen near Watters Creek. Please I don't know what to do, is anyone available tonight??",
+    "receivedAt": "2026-06-15T03:42:00.000Z"
+  },
+  {
+    "id": "lead-05",
+    "name": "Tom Nguyen",
+    "email": "tnguyen.home@outlook.com",
+    "source": "Website form",
+    "message": "Noticed a couple shingles came off in the last windstorm, they're laying in my backyard. No leaks that I can tell. Just want them put back / replaced. Probably a quick job. How much would something like that run? House is in Plano 75025.",
+    "receivedAt": "2026-06-15T14:22:00.000Z"
+  },
+  {
+    "id": "lead-07",
+    "name": "J",
+    "email": "justlooking2026@gmail.com",
+    "source": "Facebook",
+    "message": "how much for a roof",
+    "receivedAt": "2026-06-15T16:09:00.000Z"
+  }
+]

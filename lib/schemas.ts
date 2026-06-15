@@ -86,3 +86,27 @@ export const GeneratedSystemSchema = z.object({
   humanHandoffRules: z.array(z.string()),
 });
 export type GeneratedSystem = z.infer<typeof GeneratedSystemSchema>;
+
+/** Result of simulating the system processing one lead. */
+export const SimResultSchema = z.object({
+  leadId: z.string(),
+  qualificationScore: z.number(),           // 0–100
+  routingAction: z.string(),
+  firstEmailSent: z.string(),
+});
+export type SimResult = z.infer<typeof SimResultSchema>;
+
+/** Critic's evaluation of one simulated lead run. */
+export const CritiqueSchema = z.object({
+  leadId: z.string(),
+  grade: z.number(),                        // 1–10
+  reasoning: z.string(),
+  improvements: z.array(
+    z.object({
+      target: z.string(),                   // e.g. "emailFlow[0].body", "routingLogic"
+      change: z.string(),
+      why: z.string(),
+    })
+  ),
+});
+export type Critique = z.infer<typeof CritiqueSchema>;
