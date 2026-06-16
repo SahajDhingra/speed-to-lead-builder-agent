@@ -77,10 +77,20 @@ export function ProfileView({ profile }: { profile: ClientProfile }) {
   );
 }
 
+const BUCKET_LABELS: Record<string, string> = {
+  emergency:       "Emergency / Water Intrusion",
+  insurance_storm: "Insurance / Storm Damage",
+  high_value:      "High-Value Replacement",
+  out_of_area:     "Out of Area",
+  price_shopper:   "Price Shopper",
+  vague:           "Vague / General Interest",
+};
+
 // ── SystemView ─────────────────────────────────────────────────────────────
 
 export function SystemView({ system }: { system: GeneratedSystem }) {
   const [openEmail, setOpenEmail] = useState<number | null>(null);
+  const [openBucket, setOpenBucket] = useState<string | null>(null);
   return (
     <div className="space-y-3">
       <Card title="Qualification Strategy">
@@ -101,7 +111,35 @@ export function SystemView({ system }: { system: GeneratedSystem }) {
         </div>
       </Card>
 
-      <Card title={`Email Flow (${system.emailFlow.length} steps)`}>
+      <Card title="First-Touch Emails by Bucket (6)">
+        <div className="space-y-1">
+          {Object.entries(system.firstTouchEmails).map(([bucket, email]) => {
+            const isOpen = openBucket === bucket;
+            return (
+              <div key={bucket} className="border border-gray-100 rounded-lg overflow-hidden">
+                <button
+                  className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-gray-50 transition-colors"
+                  onClick={() => setOpenBucket(isOpen ? null : bucket)}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs px-2 py-0.5 bg-[#49de80]/10 text-green-800 rounded font-medium">{bucket}</span>
+                    <span className="text-sm font-medium text-gray-800">{BUCKET_LABELS[bucket]}</span>
+                  </div>
+                  <span className="text-gray-400 text-xs">{isOpen ? "▲" : "▼"}</span>
+                </button>
+                {isOpen && (
+                  <div className="px-3 pb-3 space-y-2 border-t border-gray-100">
+                    <p className="text-xs font-semibold text-gray-500 mt-2">Subject: <span className="font-normal text-gray-700">{email.subject}</span></p>
+                    <pre className="text-xs text-gray-700 whitespace-pre-wrap font-sans bg-gray-50 rounded p-2 max-h-48 overflow-y-auto">{email.body}</pre>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <Card title={`Follow-up Sequence (${system.emailFlow.length} steps)`}>
         <div className="space-y-1">
           {system.emailFlow.map((step, i) => (
             <div key={step.stepName} className="border border-gray-100 rounded-lg overflow-hidden">

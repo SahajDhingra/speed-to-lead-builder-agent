@@ -28,7 +28,7 @@ async function main() {
   );
   const leads: Lead[] = leadsRaw.map((l: unknown) => LeadSchema.parse(l));
 
-  const results: Array<{ lead: Lead; score: number; routing: string; grade: number; improvements: unknown[] }> = [];
+  const results: Array<{ lead: Lead; score: number; routing: string; firstEmail: string; grade: number; improvements: unknown[] }> = [];
 
   for (const lead of leads) {
     console.error(`  → ${lead.id} (${lead.name})…`);
@@ -39,6 +39,7 @@ async function main() {
       lead,
       score: simResult.qualificationScore,
       routing: simResult.routingAction,
+      firstEmail: simResult.firstEmailSent,
       grade: critique.grade,
       improvements: critique.improvements,
     });
@@ -52,9 +53,11 @@ async function main() {
   console.log("\n=== SIMULATION + CRITIQUE RESULTS ===\n");
   for (const r of results) {
     console.log(`Lead: ${r.lead.id} — ${r.lead.name}`);
-    console.log(`  Score : ${r.score}/100`);
-    console.log(`  Grade : ${r.grade}/10`);
+    console.log(`  Score  : ${r.score}/100`);
+    console.log(`  Grade  : ${r.grade}/10`);
     console.log(`  Routing: ${r.routing}`);
+    console.log(`  Email  : ${r.firstEmail.split("\n")[0]}`);
+    console.log(`           ${r.firstEmail.split("\n").slice(2, 4).join(" ").slice(0, 120)}…`);
     if (r.improvements.length > 0) {
       console.log("  Improvements:");
       for (const imp of r.improvements as Array<{ target: string; change: string; why: string }>) {

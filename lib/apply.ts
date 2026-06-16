@@ -15,6 +15,7 @@ const AppliedSystemSchema = z.object({
   version: z.number(),
   generatedAt: z.string(),
   qualificationStrategy: GeneratedSystemSchema.shape.qualificationStrategy,
+  firstTouchEmails: GeneratedSystemSchema.shape.firstTouchEmails,
   emailFlow: GeneratedSystemSchema.shape.emailFlow,
   routingLogic: GeneratedSystemSchema.shape.routingLogic,
   bookingCTA: z.string(),

@@ -3,6 +3,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import {
   GeneratedSystemSchema,
+  FirstTouchEmailsSchema,
   type ClientProfile,
   type GeneratedSystem,
 } from "./schemas";
@@ -17,7 +18,8 @@ export const GEN_MODEL = "gpt-4o-mini";
 const QualificationStrategySchema = GeneratedSystemSchema.shape.qualificationStrategy;
 
 const EmailFlowResponseSchema = z.object({
-  emailFlow: z.array(
+  firstTouchEmails: FirstTouchEmailsSchema,
+  followUpFlow: z.array(
     z.object({
       stepName: z.string(),
       trigger: z.string(),
@@ -65,15 +67,30 @@ ${GROUNDING_RULE}`;
 
 const EMAIL_SYSTEM = `You are a conversion copywriter for a home-services AI agency.
 
-Write the email sequence. From the ClientProfile and qualification strategy, output \
-an instant first reply plus timed follow-ups. Each step: name, trigger, subject, \
-body (use {placeholders} like {leadName}), purpose. Match the company's real brand \
-voice. The first reply must hit the speed-to-lead window, acknowledge the inquiry, \
-ask the key qualifying questions naturally, and drive to the booking CTA. Never \
-invent facts.
+From the ClientProfile and qualification strategy, produce two things:
 
-Always produce exactly 4 steps: an instant reply, then follow-ups at 24h, 72h, and \
-7 days if the lead hasn't responded.
+## Part 1 — firstTouchEmails
+Six distinct first-touch email templates, one per routing bucket. Rules for ALL:
+- ≤120 words per email body
+- Sound like a real person wrote it — concise, warm, direct
+- NEVER open with generic empathy filler ("We understand roofing issues can be stressful…")
+- At most 2–3 questions total; never a multi-question interrogation
+- Use {leadName} and {phone} as placeholders; only reference facts present in the ClientProfile
+
+Bucket requirements:
+- emergency: Urgent tone. Acknowledge the active problem (leak/water intrusion). Drive immediately to a phone call for emergency dispatch. Ask at most 1 question.
+- insurance_storm: Claims-aware and reassuring. Drive to booking a free inspection. Ask 2–3 high-signal questions only: ZIP code, homeowner (y/n), when damage occurred.
+- high_value: Consultative. Position expertise and long-term value. Drive to inspection booking. 1–2 questions.
+- out_of_area: Polite and brief. Acknowledge their inquiry, explain you can't serve their area, wish them well. Zero questions. This is the ONLY true decline.
+- price_shopper: Warm nurture — NOT a decline. Offer helpful context on value or typical range (from profile if known). Invite a quick 5-min call. 1 question max.
+- vague: Friendly and curious. Ask 1–2 questions to understand their situation and whether you can help.
+
+## Part 2 — followUpFlow
+Exactly 3 timed follow-up steps (no first-touch here — that's in Part 1):
+- Step 1: trigger = "If no reply in 24h"
+- Step 2: trigger = "If no reply in 72h"
+- Step 3: trigger = "If no reply in 7 days"
+Each step: stepName, trigger, subject, body (use {placeholders}), purpose.
 
 ${GROUNDING_RULE}`;
 
@@ -141,6 +158,7 @@ export async function generateSystem(
       step2.choices[0]?.message.refusal ?? "Step 2 returned no email flow."
     );
   }
+  console.error(`[generate] Step 2 produced ${Object.keys(emailFlowResult.firstTouchEmails).length} bucket emails + ${emailFlowResult.followUpFlow.length} follow-ups`);
 
   // ---- Step 3: Routing logic + handoff rules + bookingCTA ----------------
   console.error("[generate] Step 3: routing logic and handoff rules…");
@@ -170,7 +188,8 @@ export async function generateSystem(
     version: 1,
     generatedAt: new Date().toISOString(),
     qualificationStrategy,
-    emailFlow: emailFlowResult.emailFlow,
+    firstTouchEmails: emailFlowResult.firstTouchEmails,
+    emailFlow: emailFlowResult.followUpFlow,
     routingLogic: routingResult.routingLogic,
     humanHandoffRules: routingResult.humanHandoffRules,
     bookingCTA: routingResult.bookingCTA,

@@ -27,10 +27,18 @@ Given a GeneratedSystem and a Lead, produce a SimResult:
 2. routingAction: Select and state the single most applicable routing rule from \
    routingLogic, verbatim, adapted to this lead's specifics.
 
-3. firstEmailSent: The exact body of the email the system would send to this lead as \
-   step 1 of the emailFlow — with every {placeholder} filled from the lead data \
-   where the data exists, or left as-is if absent. The subject line should be \
-   prepended as "Subject: <subject>\\n\\n".
+3. firstEmailSent: Classify this lead into exactly one bucket key based on their \
+   message and routingAction:
+   - "emergency"       — active leak, water intrusion, roof damage actively causing harm
+   - "insurance_storm" — storm/hail damage, insurance claim, adjuster involved
+   - "high_value"      — full replacement, large project, high spend signals
+   - "out_of_area"     — location outside the service area
+   - "price_shopper"   — primary concern is cost, asking for quote/price comparison
+   - "vague"           — unclear intent, minimal information provided
+
+   Look up system.firstTouchEmails[selectedBucket] to get {subject, body}. Fill every \
+   {placeholder} from lead data where available, leave the token as-is if absent. \
+   Output as: "Subject: <subject>\\n\\n<body with placeholders filled>".
 
 ${GROUNDING_RULE}`;
 

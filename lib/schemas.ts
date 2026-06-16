@@ -56,6 +56,19 @@ export const LeadSchema = z.object({
 });
 export type Lead = z.infer<typeof LeadSchema>;
 
+/** Per-bucket first-touch email templates. */
+const BucketEmailSchema = z.object({ subject: z.string(), body: z.string() });
+
+export const FirstTouchEmailsSchema = z.object({
+  emergency:       BucketEmailSchema,
+  insurance_storm: BucketEmailSchema,
+  high_value:      BucketEmailSchema,
+  out_of_area:     BucketEmailSchema,
+  price_shopper:   BucketEmailSchema,
+  vague:           BucketEmailSchema,
+});
+export type FirstTouchEmails = z.infer<typeof FirstTouchEmailsSchema>;
+
 /** The speed-to-lead system the generation agent builds for a client. */
 export const GeneratedSystemSchema = z.object({
   clientName: z.string(),
@@ -67,10 +80,11 @@ export const GeneratedSystemSchema = z.object({
     disqualifiers: z.array(z.string()),
     scoringApproach: z.string(),
   }),
+  firstTouchEmails: FirstTouchEmailsSchema,  // per-bucket first-touch emails
   emailFlow: z.array(
     z.object({
-      stepName: z.string(),                  // "Instant reply", "Follow-up 1"
-      trigger: z.string(),                   // "On lead received", "If no reply in 24h"
+      stepName: z.string(),                  // "Follow-up 1/2/3"
+      trigger: z.string(),                   // "If no reply in 24h"
       subject: z.string(),
       body: z.string(),                      // includes {placeholders}
       purpose: z.string(),
