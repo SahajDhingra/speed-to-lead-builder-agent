@@ -3,16 +3,22 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { simulateLead } from "@/lib/simulate";
 import { GeneratedSystemSchema, LeadSchema } from "@/lib/schemas";
+import { z } from "zod";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const system = GeneratedSystemSchema.parse(body.system);
 
-    const raw = JSON.parse(
-      readFileSync(resolve(process.cwd(), "data/test-leads.json"), "utf8")
-    );
-    const leads = raw.map((l: unknown) => LeadSchema.parse(l));
+    let leads;
+    if (body.leads) {
+      leads = z.array(LeadSchema).parse(body.leads);
+    } else {
+      const raw = JSON.parse(
+        readFileSync(resolve(process.cwd(), "data/test-leads.json"), "utf8")
+      );
+      leads = raw.map((l: unknown) => LeadSchema.parse(l));
+    }
 
     // Run all leads in parallel; each call is short relative to the 60 s limit.
     const simResults = await Promise.all(

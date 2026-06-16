@@ -98,9 +98,11 @@ export function WorkflowCanvas({ run }: { run: AgentRun }) {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [openBucket, setOpenBucket] = useState<string | null>(null);
 
-  const { profile, system, leads, simResults, critiques, approvals, updatedSystem } = run;
+  const { profile, system, leads, simResults, critiques, approvals, updatedSystem, v2SimResults } = run;
 
-  const selectedSim = simResults?.find((s) => s.leadId === selectedLeadId) ?? null;
+  // Use v2 results for tracing when available
+  const activeSimResults = v2SimResults ?? simResults;
+  const selectedSim = activeSimResults?.find((s) => s.leadId === selectedLeadId) ?? null;
   const selectedLead = leads?.find((l) => l.id === selectedLeadId) ?? null;
 
   // v2 takes over from v1 when available
@@ -371,17 +373,22 @@ export function WorkflowCanvas({ run }: { run: AgentRun }) {
       )}
 
       {/* ── Lead tracer (appears after simulate) ── */}
-      {simResults && leads && (
+      {activeSimResults && leads && (
         <div
           className="mt-4 pt-3 border-t border-gray-100"
           style={{ animation: "fadeSlideIn 0.4s ease-out both" }}
         >
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
-            Trace a Lead
-          </p>
+          <div className="flex items-center gap-2 mb-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+              Trace a Lead
+            </p>
+            {v2SimResults && (
+              <span className="px-1.5 py-0.5 bg-[#49de80]/20 text-green-800 rounded text-[10px] font-semibold">v2 results</span>
+            )}
+          </div>
           <div className="flex flex-wrap gap-1.5">
             {leads.map((lead, i) => {
-              const sim = simResults[i];
+              const sim = activeSimResults[i];
               const isSelected = selectedLeadId === lead.id;
               return (
                 <button

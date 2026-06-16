@@ -15,6 +15,8 @@ export interface AgentRun {
   critiques: Critique[] | null;
   approvals: Record<string, boolean>;
   updatedSystem: GeneratedSystem | null;
+  v2SimResults: SimResult[] | null;
+  v2Critiques: Critique[] | null;
   runAt: string | null;
 }
 
@@ -26,6 +28,8 @@ export const EMPTY_RUN: AgentRun = {
   critiques: null,
   approvals: {},
   updatedSystem: null,
+  v2SimResults: null,
+  v2Critiques: null,
   runAt: null,
 };
 

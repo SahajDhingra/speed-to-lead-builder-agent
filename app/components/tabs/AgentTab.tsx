@@ -1,6 +1,6 @@
 "use client";
 import { Btn, Spinner, StepSection } from "@/app/components/ui";
-import { ProfileView, SystemView, SimTable, CritiquePanel } from "@/app/components/AgentViews";
+import { ProfileView, SystemView, SimTable, CritiquePanel, V2ComparisonPanel } from "@/app/components/AgentViews";
 import { WorkflowCanvas } from "@/app/components/WorkflowCanvas";
 import type { ClientRecord, AgentRun } from "@/app/types";
 
@@ -14,6 +14,7 @@ interface Props {
   onCritique: () => void;
   onToggleApproval: (key: string, value: boolean) => void;
   onApply: () => void;
+  onV2Simulate: () => void;
 }
 
 export function AgentTab({
@@ -26,6 +27,7 @@ export function AgentTab({
   onCritique,
   onToggleApproval,
   onApply,
+  onV2Simulate,
 }: Props) {
   if (!selectedClient) {
     return (
@@ -140,6 +142,31 @@ export function AgentTab({
             </div>
             <SystemView system={run.updatedSystem} />
           </div>
+        )}
+      </StepSection>
+
+      {/* Step 6 */}
+      <StepSection step={6} title="Compare v1 vs v2 Performance" tooltip="Re-runs the exact same 6 test leads through the improved v2 system and shows a side-by-side score and grade comparison so you can see the concrete impact of your approved changes.">
+        <Btn onClick={onV2Simulate} disabled={!run.updatedSystem || loading !== null}>
+          {loading === "v2simulate" || loading === "v2critique"
+            ? "Running…"
+            : run.v2SimResults
+            ? "Re-run v2 Comparison"
+            : "Re-run Simulation on v2"}
+        </Btn>
+        {!run.updatedSystem && (
+          <p className="text-xs text-gray-400">Apply approved improvements above to unlock v2 comparison.</p>
+        )}
+        {loading === "v2simulate" && <Spinner label="Re-running 6 leads through v2 system…" />}
+        {loading === "v2critique" && <Spinner label="Grading v2 results…" />}
+        {run.v2SimResults && run.leads && run.simResults && (
+          <V2ComparisonPanel
+            leads={run.leads}
+            simResults={run.simResults}
+            v2SimResults={run.v2SimResults}
+            critiques={run.critiques}
+            v2Critiques={run.v2Critiques}
+          />
         )}
       </StepSection>
       </div>

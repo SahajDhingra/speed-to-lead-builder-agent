@@ -247,6 +247,90 @@ export function SimTable({ leads, simResults }: { leads: Lead[]; simResults: Sim
   );
 }
 
+// ── V2ComparisonPanel ───────────────────────────────────────────────────────
+
+export function V2ComparisonPanel({
+  leads,
+  simResults,
+  v2SimResults,
+  critiques,
+  v2Critiques,
+}: {
+  leads: Lead[];
+  simResults: SimResult[];
+  v2SimResults: SimResult[];
+  critiques: Critique[] | null;
+  v2Critiques: Critique[] | null;
+}) {
+  const avgV1Grade = critiques
+    ? critiques.reduce((s, c) => s + c.grade, 0) / critiques.length
+    : null;
+  const avgV2Grade = v2Critiques
+    ? v2Critiques.reduce((s, c) => s + c.grade, 0) / v2Critiques.length
+    : null;
+  const gradeDelta = avgV1Grade !== null && avgV2Grade !== null ? avgV2Grade - avgV1Grade : null;
+
+  return (
+    <div className="space-y-4">
+      {/* Grade delta banner */}
+      {avgV1Grade !== null && avgV2Grade !== null && gradeDelta !== null && (
+        <div className="flex items-center gap-6 rounded-lg border border-[#49de80]/30 bg-[#49de80]/5 px-5 py-4">
+          <div className="text-center">
+            <p className="text-xs text-gray-400 mb-0.5">v1 Avg Grade</p>
+            <p className="text-2xl font-bold text-gray-600">{avgV1Grade.toFixed(1)}<span className="text-sm font-normal text-gray-400">/10</span></p>
+          </div>
+          <div className="text-xl text-gray-300 font-light">→</div>
+          <div className="text-center">
+            <p className="text-xs text-gray-400 mb-0.5">v2 Avg Grade</p>
+            <p className="text-2xl font-bold text-green-700">{avgV2Grade.toFixed(1)}<span className="text-sm font-normal text-gray-400">/10</span></p>
+          </div>
+          <div className="ml-auto text-center">
+            <p className="text-xs text-gray-400 mb-0.5">Delta</p>
+            <p className={`text-2xl font-bold ${gradeDelta >= 0 ? "text-[#49de80]" : "text-red-500"}`}>
+              {gradeDelta >= 0 ? "+" : ""}{gradeDelta.toFixed(1)}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Per-lead comparison table */}
+      <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              {["Lead", "v1 Score", "v2 Score", "Δ Score"].map((h) => (
+                <th key={h} className="px-4 py-2 text-left text-xs font-semibold text-gray-500 uppercase">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {leads.map((lead, i) => {
+              const v1 = simResults[i];
+              const v2 = v2SimResults[i];
+              const delta = v2.qualificationScore - v1.qualificationScore;
+              return (
+                <tr key={lead.id} className="hover:bg-gray-50">
+                  <td className="px-4 py-3">
+                    <p className="font-medium text-gray-800">{lead.name}</p>
+                    <p className="text-xs text-gray-400">{lead.source}</p>
+                  </td>
+                  <td className="px-4 py-3"><ScoreChip n={v1.qualificationScore} /></td>
+                  <td className="px-4 py-3"><ScoreChip n={v2.qualificationScore} /></td>
+                  <td className="px-4 py-3">
+                    <span className={`text-sm font-semibold ${delta > 0 ? "text-[#49de80]" : delta < 0 ? "text-red-500" : "text-gray-400"}`}>
+                      {delta > 0 ? "+" : ""}{delta}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 // ── CritiquePanel ──────────────────────────────────────────────────────────
 
 export function CritiquePanel({
