@@ -1,6 +1,7 @@
 "use client";
 import { Btn, Spinner, StepSection } from "@/app/components/ui";
 import { ProfileView, SystemView, SimTable, CritiquePanel } from "@/app/components/AgentViews";
+import { WorkflowCanvas } from "@/app/components/WorkflowCanvas";
 import type { ClientRecord, AgentRun } from "@/app/types";
 
 interface Props {
@@ -39,11 +40,13 @@ export function AgentTab({
     : 0;
 
   return (
-    <div className="p-6 space-y-4 max-w-4xl">
-      <div className="mb-2">
-        <h1 className="text-xl font-semibold text-gray-900">Agent</h1>
-        <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span> · <span className="text-gray-400">Note: Agent runs disappear upon page refresh</span></p>
-      </div>
+    <div className="flex min-h-full">
+      {/* ── Left: agent step controls ───────────────────────────────────── */}
+      <div className="flex-1 min-w-0 p-6 space-y-4 max-w-2xl">
+        <div className="mb-2">
+          <h1 className="text-xl font-semibold text-gray-900">Agent</h1>
+          <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span> · <span className="text-gray-400">Note: Agent runs disappear upon page refresh</span></p>
+        </div>
 
       {/* Step 1 */}
       <StepSection step={1} title="Ingest Client Data" tooltip="Reads the client's raw business context and uses AI to extract a structured profile — services, pricing, coverage area, qualification signals, and brand voice.">
@@ -139,6 +142,14 @@ export function AgentTab({
           </div>
         )}
       </StepSection>
+      </div>
+
+      {/* ── Right: workflow canvas ───────────────────────────────────────── */}
+      <div className="hidden lg:block w-[390px] shrink-0 sticky top-0 self-start max-h-screen overflow-y-auto border-l border-gray-100 bg-white">
+        <div className="p-4">
+          <WorkflowCanvas run={run} />
+        </div>
+      </div>
     </div>
   );
 }
