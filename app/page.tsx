@@ -182,6 +182,12 @@ export default function Shell() {
       <Sidebar active={activeTab} onChange={setActiveTab} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top header */}
+        <header className="shrink-0 bg-gray-900 text-white px-6 py-4 border-b border-gray-800">
+          <h1 className="text-lg font-semibold tracking-tight">Speed-To-Lead Builder Agent</h1>
+          <p className="text-gray-400 text-sm mt-0.5">GenAIPI Roofing · AI harness</p>
+        </header>
+
         {/* Error banner */}
         {error && (
           <div className="shrink-0 bg-red-50 border-b border-red-200 px-6 py-2 text-sm text-red-700 flex items-center justify-between">
