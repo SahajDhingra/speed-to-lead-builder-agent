@@ -1,7 +1,6 @@
 "use client";
 
-// Replace with your real Loom URL before sharing
-const LOOM_URL = "https://loom.com/share/placeholder";
+const LOOM_URL = "https://www.loom.com/share/605f675a08584bb7b17d3f01897d0a10";
 
 const STEPS = [
   {
