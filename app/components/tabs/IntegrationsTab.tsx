@@ -21,16 +21,22 @@ const INTEGRATIONS: Integration[] = [
     category: "Email",
   },
   {
-    name: "GoHighLevel (GHL)",
-    description: "CRM and pipeline management. Connect to automatically log inbound leads and trigger workflows.",
-    status: "available",
-    category: "CRM",
-  },
-  {
     name: "Housecall Pro",
     description: "Field service management. Sync booked inspections and job status back into the pipeline.",
     status: "available",
     category: "Field ops",
+  },
+  {
+    name: "ServiceTitan",
+    description: "Enterprise field service platform. Pull job history, memberships, and booked revenue to enrich lead scoring.",
+    status: "available",
+    category: "Field ops",
+  },
+  {
+    name: "GoHighLevel (GHL)",
+    description: "CRM and pipeline management. Connect to automatically log inbound leads and trigger workflows.",
+    status: "available",
+    category: "CRM",
   },
   {
     name: "Twilio",
