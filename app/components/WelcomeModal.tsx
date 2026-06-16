@@ -76,10 +76,12 @@ export function WelcomeModal({ onClose }: Props) {
               What it is
             </p>
             <p className="text-sm text-gray-700 leading-relaxed">
-              An AI agent that ingests any home-services business's raw context — services,
-              pricing, brand voice, service area — and builds a fully custom speed-to-lead
-              system: qualification scoring, lead routing logic, and a branched email cadence
-              in the business's own voice. Then it critiques and improves its own output.
+              An AI agent that builds speed-to-lead systems for an agency's clients. When a
+              new client comes in — say a home-services business — the agent ingests its raw
+              context (services, pricing, brand voice, service area) and builds that client a
+              fully custom speed-to-lead system: qualification scoring, lead routing logic,
+              and a branched email cadence in the client's own voice. Then it critiques and
+              improves its own output.
             </p>
           </div>
 
@@ -89,8 +91,10 @@ export function WelcomeModal({ onClose }: Props) {
               Who it's for
             </p>
             <p className="text-sm text-gray-700 leading-relaxed">
-              Home-services operators and the agencies that serve them. The live demo runs on
-              a roofing company.
+              Agencies that onboard a steady flow of inbound clients and need to stand up
+              automations for each one — fast, without rebuilding from scratch every time.
+              Instead of an operator hand-building each client's system, the agent does it
+              per client. The live demo runs on a roofing company.
             </p>
           </div>
 
