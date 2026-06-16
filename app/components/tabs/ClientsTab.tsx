@@ -40,7 +40,7 @@ export function ClientsTab({ clients, selectedClientId, adding, onSelect, onAdd,
             >
               Import from Housecall Pro
             </button>
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 bg-gray-900 text-white text-xs rounded-md px-3 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 text-center leading-relaxed">
+            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 bg-gray-900 text-white text-xs rounded-md px-3 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 text-center leading-relaxed">
               Requires Housecall Pro connection
             </span>
           </span>
