@@ -139,8 +139,26 @@ export default function Shell() {
   }
 
   async function runSimulate() {
+    const client = clients.find((c) => c.id === selectedClientId);
+    const isCustomClient = !!client?.rawContext;
+
+    // For custom clients, generate vertical-matched leads first so the pipeline
+    // is client-agnostic. For the default roofing client (rawContext === null),
+    // omit leads and let the route read the hardcoded test-leads.json.
+    let generatedLeads: Lead[] | undefined;
+    if (isCustomClient && run.profile) {
+      const leadsData = await call<{ leads: Lead[] }>(
+        "simulate", "/api/generate-leads", { profile: run.profile }
+      );
+      if (!leadsData) return;
+      generatedLeads = leadsData.leads;
+    }
+
     const data = await call<{ leads: Lead[]; simResults: SimResult[] }>(
-      "simulate", "/api/simulate", { system: run.system }
+      "simulate", "/api/simulate",
+      generatedLeads
+        ? { system: run.system, leads: generatedLeads }
+        : { system: run.system }
     );
     if (data) {
       updateRun(setRuns, selectedClientId, {

@@ -68,8 +68,8 @@ export function ClientsTab({ clients, selectedClientId, adding, onSelect, onAdd,
               Raw business context — paste website copy, services sheet, FAQs, operational notes
             </label>
             <textarea
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#49de80]/40 h-48 resize-y"
-              placeholder="Paste the client's raw business context here…"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#49de80]/40 h-48 resize-y"
+              placeholder="Paste the client's business context here and example inbound leads…"
               value={rawContext}
               onChange={(e) => setRawContext(e.target.value)}
             />
