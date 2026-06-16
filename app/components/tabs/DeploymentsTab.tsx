@@ -25,7 +25,7 @@ export function DeploymentsTab({ clients, deployments }: Props) {
       </div>
 
       {allDeployments.length === 0 ? (
-        <EmptyState message="No deployments yet. Run the Agent to generate and apply a system." />
+        <EmptyState message="No deployments yet. Run the Agent to generate and apply a system. Note: Deployment history disappears upon page refresh." />
       ) : (
         <div className="space-y-3">
           {allDeployments.map(({ client, system }) => {

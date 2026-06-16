@@ -42,7 +42,7 @@ export function AgentTab({
     <div className="p-6 space-y-4 max-w-4xl">
       <div className="mb-2">
         <h1 className="text-xl font-semibold text-gray-900">Agent</h1>
-        <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span></p>
+        <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span> · <span className="text-gray-400">Note: Agent runs disappear upon page refresh</span></p>
       </div>
 
       {/* Step 1 */}
