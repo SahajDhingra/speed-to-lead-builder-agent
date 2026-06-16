@@ -178,17 +178,18 @@ export default function Shell() {
   // ── render ─────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <Sidebar active={activeTab} onChange={setActiveTab} />
+    <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
+      {/* Full-width top header */}
+      <header className="shrink-0 bg-gray-900 px-6 py-4 border-b border-gray-800">
+        <h1 className="text-lg font-semibold tracking-tight text-[#49de80]">Speed-To-Lead Builder Agent</h1>
+        <p className="text-[#49de80]/60 text-sm mt-0.5">GenAIPI Roofing · AI harness</p>
+      </header>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top header */}
-        <header className="shrink-0 bg-gray-900 text-white px-6 py-4 border-b border-gray-800">
-          <h1 className="text-lg font-semibold tracking-tight">Speed-To-Lead Builder Agent</h1>
-          <p className="text-gray-400 text-sm mt-0.5">GenAIPI Roofing · AI harness</p>
-        </header>
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar active={activeTab} onChange={setActiveTab} />
 
-        {/* Error banner */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Error banner */}
         {error && (
           <div className="shrink-0 bg-red-50 border-b border-red-200 px-6 py-2 text-sm text-red-700 flex items-center justify-between">
             {error}
@@ -229,6 +230,7 @@ export default function Shell() {
             <DeploymentsTab clients={clients} deployments={deployments} />
           )}
         </main>
+        </div>
       </div>
     </div>
   );

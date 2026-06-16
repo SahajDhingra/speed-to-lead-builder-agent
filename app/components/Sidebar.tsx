@@ -18,12 +18,6 @@ export function Sidebar({
 }) {
   return (
     <aside className="w-52 shrink-0 bg-gray-950 flex flex-col h-screen sticky top-0">
-      {/* Logo */}
-      <div className="px-4 py-5 border-b border-gray-800">
-        <span className="text-[#49de80] font-bold text-base tracking-tight">SpeedToLead</span>
-        <p className="text-gray-500 text-xs mt-0.5">AI builder</p>
-      </div>
-
       {/* Nav */}
       <nav className="flex-1 px-2 py-3 space-y-0.5">
         {NAV.map(({ id, label, icon }) => {
