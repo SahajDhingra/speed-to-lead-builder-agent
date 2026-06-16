@@ -1,4 +1,4 @@
-# Redhawk Roofing & Exteriors — Business Context Pack
+# GenAIPI Roofing — Business Context Pack
 
 > Internal knowledge base for AI/automation ingestion. Last updated: June 2026.
 > Company is residential-led, insurance-storm-focused, with a growing seamless gutter and exterior line.
@@ -7,7 +7,7 @@
 
 ## 1. About / Overview
 
-Redhawk Roofing & Exteriors is a family-owned roofing and exterior contractor headquartered in McKinney, Texas, serving homeowners and small commercial property owners across the North Dallas–Fort Worth metroplex since 2009. We were founded by Cole Brennan, a former insurance adjuster, after one too many North Texas hailstorms left his own neighborhood scrambling for honest contractors. That adjuster background still shapes how we run: we read the storm report before we read the roof, we document damage the way a carrier actually wants to see it, and we don't oversell a roof that has another good decade in it.
+GenAIPI Roofing is a family-owned roofing and exterior contractor headquartered in McKinney, Texas, serving homeowners and small commercial property owners across the North Dallas–Fort Worth metroplex since 2009. We were founded by Cole Brennan, a former insurance adjuster, after one too many North Texas hailstorms left his own neighborhood scrambling for honest contractors. That adjuster background still shapes how we run: we read the storm report before we read the roof, we document damage the way a carrier actually wants to see it, and we don't oversell a roof that has another good decade in it.
 
 We've grown from a two-truck operation working Allen and McKinney to a team of 30-plus across production, sales, and a dedicated insurance-claims desk, while staying deliberately regional. We're a GAF Master Elite contractor (top 2% of roofers nationally), an Owens Corning Platinum Preferred installer, and we carry full general liability and workers' comp on every crew. Most of what we do is storm and insurance work — wind and hail are the dominant business in North Texas — but we also handle straightforward cash repairs, full retail replacements, seamless gutters, and emergency tarping when a roof opens up at 2 a.m.
 
