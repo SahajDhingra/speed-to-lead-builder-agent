@@ -10,9 +10,10 @@ interface Props {
   runs: Record<string, AgentRun>;
   deployments: Record<string, GeneratedSystem[]>;
   onNavigate: (tab: TabId) => void;
+  onReset: () => void;
 }
 
-export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) {
+export function DashboardTab({ clients, runs, deployments, onNavigate, onReset }: Props) {
   const [showWelcome, setShowWelcome] = useState(true);
 
   // Aggregate across all runs
@@ -27,6 +28,9 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
   const evalRun = allRuns.find((r) => r.critiques && r.simResults) ?? null;
   const avgGrade = evalRun?.critiques
     ? (evalRun.critiques.reduce((s, c) => s + c.grade, 0) / evalRun.critiques.length).toFixed(1)
+    : null;
+  const avgV2Grade = evalRun?.v2Critiques
+    ? (evalRun.v2Critiques.reduce((s, c) => s + c.grade, 0) / evalRun.v2Critiques.length).toFixed(1)
     : null;
   const totalImprovements = evalRun?.critiques?.reduce((s, c) => s + c.improvements.length, 0) ?? 0;
   const approvedCount = evalRun
@@ -46,9 +50,17 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
     <>
     {showWelcome && <WelcomeModal onClose={() => setShowWelcome(false)} />}
     <div className="p-6 space-y-6 max-w-4xl">
-      <div>
-        <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500">Overview of your speed-to-lead pipeline</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-500">Overview of your speed-to-lead pipeline</p>
+        </div>
+        <button
+          onClick={onReset}
+          className="text-xs text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 rounded px-2.5 py-1.5 transition-colors mt-0.5"
+        >
+          Reset / Clear run
+        </button>
       </div>
 
       {/* Top stat tiles */}
@@ -118,7 +130,18 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
               {evalRun.updatedSystem ? (
                 <>
                   <p className="text-sm font-semibold text-[#49de80]">v{evalRun.updatedSystem.version} generated</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{approvedCount} change{approvedCount !== 1 ? "s" : ""} applied</p>
+                  {avgV2Grade ? (
+                    <>
+                      <p className="text-xs text-gray-500 mt-0.5">v2 grade: <span className="font-semibold text-green-700">{avgV2Grade}/10</span></p>
+                      {avgGrade && (
+                        <p className={`text-xs font-semibold mt-0.5 ${Number(avgV2Grade) >= Number(avgGrade) ? "text-[#49de80]" : "text-red-500"}`}>
+                          {Number(avgV2Grade) - Number(avgGrade) >= 0 ? "+" : ""}{(Number(avgV2Grade) - Number(avgGrade)).toFixed(1)} vs v1
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <p className="text-xs text-gray-400 mt-0.5">{approvedCount} change{approvedCount !== 1 ? "s" : ""} applied</p>
+                  )}
                 </>
               ) : (
                 <p className="text-sm text-gray-400">Not yet applied</p>

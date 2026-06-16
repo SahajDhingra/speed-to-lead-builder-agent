@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Sidebar } from "@/app/components/Sidebar";
 import { AgentTab } from "@/app/components/tabs/AgentTab";
 import { DashboardTab } from "@/app/components/tabs/DashboardTab";
@@ -12,6 +12,10 @@ import {
   type TabId, type ClientRecord, type AgentRun,
 } from "@/app/types";
 import type { ClientProfile, GeneratedSystem, SimResult, Lead, Critique } from "@/lib/schemas";
+
+// ── localStorage persistence ────────────────────────────────────────────────
+
+const STORAGE_KEY = "stl-agent-v1";
 
 // ── state helpers ──────────────────────────────────────────────────────────
 
@@ -37,9 +41,51 @@ export default function Shell() {
   const [loading, setLoading] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const selectedClient = clients.find((c) => c.id === selectedClientId) ?? null;
   const run = runs[selectedClientId] ?? EMPTY_RUN;
+
+  // ── localStorage: rehydrate on mount ───────────────────────────────────
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (saved?.version === 1) {
+          if (Array.isArray(saved.clients) && saved.clients.length > 0)
+            setClients(saved.clients);
+          if (saved.selectedClientId)
+            setSelectedClientId(saved.selectedClientId);
+          if (saved.runs && typeof saved.runs === "object")
+            setRuns(saved.runs);
+          if (saved.deployments && typeof saved.deployments === "object")
+            setDeployments(saved.deployments);
+        }
+      }
+    } catch {
+      // corrupted storage — start fresh
+    } finally {
+      setIsHydrated(true);
+    }
+  }, []);
+
+  // ── localStorage: persist on change (only after hydration) ─────────────
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ version: 1, clients, selectedClientId, runs, deployments })
+      );
+    } catch {
+      // quota exceeded or private browsing — silently ignore
+    }
+  }, [isHydrated, clients, selectedClientId, runs, deployments]);
 
   // ── generic fetch wrapper ──────────────────────────────────────────────
 
@@ -143,6 +189,34 @@ export default function Shell() {
     }
   }
 
+  async function runV2Simulate() {
+    const data = await call<{ leads: Lead[]; simResults: SimResult[] }>(
+      "v2simulate", "/api/simulate", { system: run.updatedSystem, leads: run.leads }
+    );
+    if (!data) return;
+    updateRun(setRuns, selectedClientId, { v2SimResults: data.simResults });
+
+    const critiqueData = await call<{ critiques: Critique[] }>(
+      "v2critique", "/api/critique",
+      { system: run.updatedSystem, leads: run.leads, simResults: data.simResults }
+    );
+    if (critiqueData) {
+      updateRun(setRuns, selectedClientId, { v2Critiques: critiqueData.critiques });
+    }
+  }
+
+  // ── reset ──────────────────────────────────────────────────────────────
+
+  function clearRun() {
+    if (typeof window !== "undefined") {
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
+    }
+    setClients([DEFAULT_CLIENT]);
+    setSelectedClientId(DEFAULT_CLIENT.id);
+    setRuns({});
+    setDeployments({});
+  }
+
   // ── client handlers ────────────────────────────────────────────────────
 
   const handleSelectClient = useCallback((id: string) => {
@@ -200,7 +274,7 @@ export default function Shell() {
         {/* Tab content */}
         <main className="flex-1 overflow-y-auto">
           {activeTab === "dashboard" && (
-            <DashboardTab clients={clients} runs={runs} deployments={deployments} onNavigate={setActiveTab} />
+            <DashboardTab clients={clients} runs={runs} deployments={deployments} onNavigate={setActiveTab} onReset={clearRun} />
           )}
           {activeTab === "clients" && (
             <ClientsTab
@@ -223,6 +297,7 @@ export default function Shell() {
               onCritique={runCritique}
               onToggleApproval={toggleApproval}
               onApply={runApply}
+              onV2Simulate={runV2Simulate}
             />
           )}
           {activeTab === "integrations" && <IntegrationsTab />}
