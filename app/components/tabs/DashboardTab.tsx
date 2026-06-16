@@ -1,5 +1,7 @@
 "use client";
+import { useState } from "react";
 import { Card, EmptyState } from "@/app/components/ui";
+import { WelcomeModal } from "@/app/components/WelcomeModal";
 import type { ClientRecord, AgentRun, TabId } from "@/app/types";
 import type { GeneratedSystem } from "@/lib/schemas";
 
@@ -11,6 +13,8 @@ interface Props {
 }
 
 export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) {
+  const [showWelcome, setShowWelcome] = useState(true);
+
   // Aggregate across all runs
   const allRuns = Object.values(runs);
   const lastRun = allRuns.filter((r) => r.runAt).sort((a, b) =>
@@ -39,6 +43,8 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
   const v2Count = Object.values(deployments).filter((d) => d.length >= 2).length;
 
   return (
+    <>
+    {showWelcome && <WelcomeModal onClose={() => setShowWelcome(false)} />}
     <div className="p-6 space-y-6 max-w-4xl">
       <div>
         <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
@@ -150,6 +156,7 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
         )}
       </Card>
     </div>
+    </>
   );
 }
 
