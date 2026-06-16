@@ -58,7 +58,7 @@ export function AgentTab({
       </StepSection>
 
       {/* Step 2 */}
-      <StepSection step={2} title="Generate System" tooltip="Chains 3 AI calls to build a qualification strategy, 4-step email flow, and routing rules tailored to this specific client.">
+      <StepSection step={2} title="Generate Custom Speed to Lead System" tooltip="Chains 3 AI calls to build a qualification strategy, 4-step email flow, and routing rules tailored to this specific client.">
         <Btn onClick={onGenerate} disabled={!run.profile || loading !== null}>
           {loading === "generate" ? "Generating…" : run.system ? "Re-generate" : "Generate System"}
         </Btn>
@@ -83,7 +83,7 @@ export function AgentTab({
       </StepSection>
 
       {/* Step 4 */}
-      <StepSection step={4} title="Critique Results" tooltip="An AI critic grades each lead's handling 1–10, explains its reasoning, and proposes targeted improvements with specific fields to change.">
+      <StepSection step={4} title="Critique Results" tooltip="A hermes style AI Critic grades each lead's handling 1–10, explains its reasoning, and proposes targeted improvements with specific fields to change.">
         <div className="flex items-center gap-3">
           <Btn onClick={onCritique} disabled={!run.simResults || loading !== null}>
             {loading === "critique" ? "Grading…" : run.critiques ? "Re-run Critiques" : "Critique Results"}

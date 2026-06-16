@@ -81,7 +81,7 @@ export function WelcomeModal({ onClose }: Props) {
               context (services, pricing, brand voice, service area) and builds that client a
               fully custom speed-to-lead system: qualification scoring, lead routing logic,
               and a branched email cadence in the client's own voice. Then it critiques and
-              improves its own output.
+              improves its own output using a hermes style self improvement loop.
             </p>
           </div>
 
