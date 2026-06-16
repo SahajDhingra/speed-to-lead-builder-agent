@@ -43,7 +43,6 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
       <div>
         <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
         <p className="text-sm text-gray-500">Overview of your speed-to-lead pipeline</p>
-        <p className="text-xs text-gray-400 text-center mt-0.5">Note: Dashboard resets upon page refresh</p>
       </div>
 
       {/* Top stat tiles */}
@@ -77,7 +76,10 @@ export function DashboardTab({ clients, runs, deployments, onNavigate }: Props) 
       {/* Evals tile */}
       <Card title="Latest Eval Run">
         {!evalRun ? (
-          <EmptyState message="Run the Agent → Simulate → Critique to see eval results here." />
+          <div className="flex flex-col items-center justify-center h-40 gap-1 border border-dashed border-gray-200 rounded-lg">
+            <p className="text-sm text-gray-400">Run the Agent → Simulate → Critique to see eval results here.</p>
+            <p className="text-xs text-gray-400">Note: Dashboard resets upon page refresh</p>
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             <EvalStat label="Score Distribution">
