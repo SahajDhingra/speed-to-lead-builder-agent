@@ -99,6 +99,15 @@ export function ClientsTab({ clients, selectedClientId, adding, onSelect, onAdd,
                     )}
                   </div>
                   <p className="text-xs text-gray-400 mt-0.5">Added {new Date(c.addedAt).toLocaleDateString()}</p>
+                  {c.rawContext === null && (
+                    <a
+                      href="/api/download-context"
+                      download="roofing-client.md"
+                      className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2 mt-1 inline-block"
+                    >
+                      Download Business Knowledge Base
+                    </a>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   {!isSelected && (

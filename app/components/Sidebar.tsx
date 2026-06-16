@@ -17,7 +17,7 @@ export function Sidebar({
   onChange: (t: TabId) => void;
 }) {
   return (
-    <aside className="w-52 shrink-0 bg-gray-950 flex flex-col h-screen sticky top-0">
+    <aside className="w-[10.4rem] shrink-0 bg-gray-950 flex flex-col h-screen sticky top-0">
       {/* Nav */}
       <nav className="flex-1 px-2 py-3 space-y-0.5">
         {NAV.map(({ id, label, icon }) => {
