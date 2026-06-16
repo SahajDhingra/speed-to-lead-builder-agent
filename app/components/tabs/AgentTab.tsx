@@ -15,6 +15,7 @@ interface Props {
   onToggleApproval: (key: string, value: boolean) => void;
   onApply: () => void;
   onV2Simulate: () => void;
+  onReset: () => void;
 }
 
 export function AgentTab({
@@ -28,6 +29,7 @@ export function AgentTab({
   onToggleApproval,
   onApply,
   onV2Simulate,
+  onReset,
 }: Props) {
   if (!selectedClient) {
     return (
@@ -45,9 +47,17 @@ export function AgentTab({
     <div className="flex min-h-full">
       {/* ── Left: agent step controls ───────────────────────────────────── */}
       <div className="flex-1 min-w-0 p-6 space-y-4 max-w-2xl">
-        <div className="mb-2">
-          <h1 className="text-xl font-semibold text-gray-900">Agent</h1>
-          <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span> · <span className="text-gray-400">Note: Agent runs disappear upon page refresh</span></p>
+        <div className="mb-2 flex items-start justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-gray-900">Agent</h1>
+            <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span></p>
+          </div>
+          <button
+            onClick={onReset}
+            className="text-xs text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 rounded px-2.5 py-1.5 transition-colors mt-0.5 shrink-0"
+          >
+            Reset / Clear run
+          </button>
         </div>
 
       {/* Step 1 */}

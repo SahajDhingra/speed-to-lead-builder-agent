@@ -26,17 +26,23 @@ grade (1–10):
 reasoning: 2–4 sentences explaining the grade, specific to this lead and system — \
 not generic observations.
 
-improvements: 1–4 targeted, actionable improvement objects. Each must specify:
-  - target: the exact field or component to change (e.g. "emailFlow[0].body", \
-    "routingLogic", "qualificationStrategy.scoringApproach", \
+improvements: 2–4 substantive, structural improvements. Rules:
+  - For any grade below 8, you MUST propose at least 2 improvements that together \
+    would plausibly raise the grade to 8+ if applied.
+  - Target STRUCTURAL issues — routing rule gaps, qualification scoring miscalibrations, \
+    email strategy mismatches, missing disqualifiers, wrong human-handoff thresholds. \
+    Do NOT propose surface-level word tweaks or minor phrasing changes.
+  - Each improvement must be complete and self-contained: another agent must be able to \
+    apply it by replacing the exact target field with the exact change specified.
+  - target: the exact field (e.g. "routingLogic[0].action", \
+    "qualificationStrategy.scoringApproach", "firstTouchEmails.price_shopper.body", \
     "qualificationStrategy.questionsToAsk")
-  - change: the specific change to make (concrete enough that another agent could \
-    apply it without ambiguity)
-  - why: one sentence grounding the improvement in this lead's outcome
+  - change: the full, specific replacement text or rule — not a direction like \
+    "make it warmer", but the actual updated copy or logic
+  - why: one sentence explaining what outcome this fixes for leads like this one
 
-Only propose improvements that would genuinely improve handling of leads like this one. \
-Do not pad with generic suggestions. If the system handled the lead well, propose \
-0–1 minor refinements.`;
+Only propose improvements that would genuinely change the system's behavior for leads \
+like this one. Do not pad with generic suggestions.`;
 
 export async function critiqueRun(
   system: GeneratedSystem,

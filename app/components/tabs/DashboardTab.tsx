@@ -1,7 +1,5 @@
 "use client";
-import { useState } from "react";
 import { Card, EmptyState } from "@/app/components/ui";
-import { WelcomeModal } from "@/app/components/WelcomeModal";
 import type { ClientRecord, AgentRun, TabId } from "@/app/types";
 import type { GeneratedSystem } from "@/lib/schemas";
 
@@ -14,7 +12,6 @@ interface Props {
 }
 
 export function DashboardTab({ clients, runs, deployments, onNavigate, onReset }: Props) {
-  const [showWelcome, setShowWelcome] = useState(true);
 
   // Aggregate across all runs
   const allRuns = Object.values(runs);
@@ -47,8 +44,6 @@ export function DashboardTab({ clients, runs, deployments, onNavigate, onReset }
   const v2Count = Object.values(deployments).filter((d) => d.length >= 2).length;
 
   return (
-    <>
-    {showWelcome && <WelcomeModal onClose={() => setShowWelcome(false)} />}
     <div className="p-6 space-y-6 max-w-4xl">
       <div className="flex items-start justify-between">
         <div>
@@ -94,9 +89,8 @@ export function DashboardTab({ clients, runs, deployments, onNavigate, onReset }
       {/* Evals tile */}
       <Card title="Latest Eval Run">
         {!evalRun ? (
-          <div className="flex flex-col items-center justify-center h-40 gap-1 border border-dashed border-gray-200 rounded-lg">
+          <div className="flex flex-col items-center justify-center h-40 border border-dashed border-gray-200 rounded-lg">
             <p className="text-sm text-gray-400">Run the Agent → Simulate → Critique to see eval results here.</p>
-            <p className="text-xs text-gray-400">Note: Dashboard resets upon page refresh</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
@@ -179,7 +173,6 @@ export function DashboardTab({ clients, runs, deployments, onNavigate, onReset }
         )}
       </Card>
     </div>
-    </>
   );
 }
 

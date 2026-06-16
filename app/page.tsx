@@ -7,6 +7,7 @@ import { DashboardTab } from "@/app/components/tabs/DashboardTab";
 import { ClientsTab } from "@/app/components/tabs/ClientsTab";
 import { IntegrationsTab } from "@/app/components/tabs/IntegrationsTab";
 import { DeploymentsTab } from "@/app/components/tabs/DeploymentsTab";
+import { WelcomeModal } from "@/app/components/WelcomeModal";
 import {
   DEFAULT_CLIENT, EMPTY_RUN,
   type TabId, type ClientRecord, type AgentRun,
@@ -42,6 +43,7 @@ export default function Shell() {
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   const selectedClient = clients.find((c) => c.id === selectedClientId) ?? null;
   const run = runs[selectedClientId] ?? EMPTY_RUN;
@@ -271,6 +273,7 @@ export default function Shell() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
+      {showWelcome && <WelcomeModal onClose={() => setShowWelcome(false)} />}
       {/* Full-width top header */}
       <header className="shrink-0 bg-gray-900 px-6 py-4 border-b border-gray-800">
         <h1 className="text-lg font-semibold tracking-tight text-[#49de80]">Speed-To-Lead Builder Agent</h1>
@@ -316,6 +319,7 @@ export default function Shell() {
               onToggleApproval={toggleApproval}
               onApply={runApply}
               onV2Simulate={runV2Simulate}
+              onReset={clearRun}
             />
           )}
           {activeTab === "integrations" && <IntegrationsTab />}
