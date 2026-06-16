@@ -32,9 +32,22 @@ export function ClientsTab({ clients, selectedClientId, adding, onSelect, onAdd,
           <h1 className="text-xl font-semibold text-gray-900">Clients</h1>
           <p className="text-sm text-gray-500">{clients.length} client{clients.length !== 1 ? "s" : ""}</p>
         </div>
-        <Btn onClick={() => setShowForm((s) => !s)}>
-          {showForm ? "Cancel" : "+ Add Client"}
-        </Btn>
+        <div className="flex items-center gap-2">
+          <span className="relative group">
+            <button
+              disabled
+              className="px-3 py-1.5 rounded text-sm border border-gray-300 text-gray-400 cursor-not-allowed opacity-60"
+            >
+              Import from Housecall Pro
+            </button>
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 bg-gray-900 text-white text-xs rounded-md px-3 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 text-center leading-relaxed">
+              Requires Housecall Pro connection
+            </span>
+          </span>
+          <Btn onClick={() => setShowForm((s) => !s)}>
+            {showForm ? "Cancel" : "+ Add Client"}
+          </Btn>
+        </div>
       </div>
 
       {/* Add client form */}
