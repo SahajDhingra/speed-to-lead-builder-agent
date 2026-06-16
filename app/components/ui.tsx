@@ -80,13 +80,28 @@ export function GradeChip({ n }: { n: number }) {
   return <span className={`font-bold text-sm ${cls}`}>{n}/10</span>;
 }
 
+export function InfoTip({ text }: { text: string }) {
+  return (
+    <span className="relative group inline-flex items-start ml-1">
+      <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-gray-200 text-gray-500 text-[9px] font-bold cursor-default select-none leading-none -mt-1">
+        i
+      </span>
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 bg-gray-900 text-white text-xs rounded-md px-3 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 leading-relaxed">
+        {text}
+      </span>
+    </span>
+  );
+}
+
 export function StepSection({
   step,
   title,
+  tooltip,
   children,
 }: {
   step: number;
   title: string;
+  tooltip?: string;
   children: ReactNode;
 }) {
   return (
@@ -95,7 +110,10 @@ export function StepSection({
         <span className="w-7 h-7 flex items-center justify-center rounded-full bg-[#49de80] text-gray-950 text-sm font-semibold shrink-0">
           {step}
         </span>
-        <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-base font-semibold text-gray-900">
+          {title}
+          {tooltip && <InfoTip text={tooltip} />}
+        </h2>
       </div>
       {children}
     </section>

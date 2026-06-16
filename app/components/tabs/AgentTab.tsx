@@ -42,11 +42,11 @@ export function AgentTab({
     <div className="p-6 space-y-4 max-w-4xl">
       <div className="mb-2">
         <h1 className="text-xl font-semibold text-gray-900">Agent</h1>
-        <p className="text-sm text-gray-500">Building speed-to-lead system for <span className="font-medium text-gray-700">{selectedClient.name}</span></p>
+        <p className="text-sm text-gray-500">Building custom speed-to-lead system for imported client <span className="font-medium text-gray-700">({selectedClient.name})</span></p>
       </div>
 
       {/* Step 1 */}
-      <StepSection step={1} title="Ingest Client Data">
+      <StepSection step={1} title="Ingest Client Data" tooltip="Reads the client's raw business context and uses AI to extract a structured profile — services, pricing, coverage area, qualification signals, and brand voice.">
         <Btn onClick={onIngest} disabled={loading !== null}>
           {loading === "ingest" ? "Ingesting…" : run.profile ? "Re-ingest" : "Ingest Client Data"}
         </Btn>
@@ -55,7 +55,7 @@ export function AgentTab({
       </StepSection>
 
       {/* Step 2 */}
-      <StepSection step={2} title="Generate System">
+      <StepSection step={2} title="Generate System" tooltip="Chains 3 AI calls to build a qualification strategy, 4-step email flow, and routing rules tailored to this specific client.">
         <Btn onClick={onGenerate} disabled={!run.profile || loading !== null}>
           {loading === "generate" ? "Generating…" : run.system ? "Re-generate" : "Generate System"}
         </Btn>
@@ -71,7 +71,7 @@ export function AgentTab({
       </StepSection>
 
       {/* Step 3 */}
-      <StepSection step={3} title="Run Test Leads">
+      <StepSection step={3} title="Run Test Leads" tooltip="Runs 6 varied test leads through the generated system, scoring each 0–100 and rendering the first email with all placeholders filled in.">
         <Btn onClick={onSimulate} disabled={!run.system || loading !== null}>
           {loading === "simulate" ? "Running…" : run.simResults ? "Re-run Simulation" : "Run Test Leads"}
         </Btn>
@@ -80,7 +80,7 @@ export function AgentTab({
       </StepSection>
 
       {/* Step 4 */}
-      <StepSection step={4} title="Critique Results">
+      <StepSection step={4} title="Critique Results" tooltip="An AI critic grades each lead's handling 1–10, explains its reasoning, and proposes targeted improvements with specific fields to change.">
         <div className="flex items-center gap-3">
           <Btn onClick={onCritique} disabled={!run.simResults || loading !== null}>
             {loading === "critique" ? "Grading…" : run.critiques ? "Re-run Critiques" : "Critique Results"}
@@ -101,7 +101,7 @@ export function AgentTab({
       </StepSection>
 
       {/* Step 5 */}
-      <StepSection step={5} title="Apply Approved Improvements">
+      <StepSection step={5} title="Apply Approved Improvements" tooltip="Applies your approved changes via a structured AI call to produce an updated version of the system with an incremented version number and full change log.">
         <Btn onClick={onApply} disabled={!run.critiques || approvedCount === 0 || loading !== null}>
           {loading === "apply"
             ? "Applying…"
